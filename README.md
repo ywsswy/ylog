@@ -8,12 +8,14 @@
 
 # 使用介绍
 
-构造函数为 YLog(const int level, const std::string &logfile, const int type = YLog::OVER);
+## 构造函数
+* YLog(const int level, const std::string &logfile, const int type = YLog::OVER);
 * level：指定日志级别下限，ERROR级别（YLog::ERROR）或INFO级别（YLog::INFO），仅当调用日志输出函数的输出级别达到定义下限级别时才会往日志文件中写日志。（例如，下限定义成YLog::ERROR，那么所有 INFO 级别的信息将不会写入日志文件）
 * logfile：指定输出日志文件名。（如果含路径，请保证路径文件夹存在）
 * type：指定每一个日志文件的输出方式，每次程序运行追加（YLog::ADD)或覆盖(YLog::OVER)之前的日志文件。
 
-写日志的函数为 template<typename T> \
+## 写日志的函数
+* template<typename T> \
 	void w(const std::string &codefile, const int codeline, \
 		const int level, const std::string &info, const T &value);
 * codefile：固定使用__FILE__宏表示哪个程序文件输出的日志。
