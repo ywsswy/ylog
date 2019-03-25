@@ -29,7 +29,7 @@
 
 ## 时间上可以精确到毫秒级
 
-`
+```
 //windows平台下可以参考如下代码：
 SYSTEMTIME yst;
 ::GetLocalTime(&yst);
@@ -43,11 +43,11 @@ fprintf(file, "%04d-%02d-%02d %02d:%02d:%02d.%03d",\
 struct timeb tb;
 ftime(&tb);
 std::cout << tb.millitm;
-`
+```
 
 ## 参数个数可变的情况可以参考如下代码
 
-`
+```
 #include<iostream>
 #include<cstdarg>
 #include<cstdio>
@@ -69,11 +69,11 @@ int main(){
     fun("%s %d %f\n","789012", 34, 67.89);
     return 0;
 }
-`
+```
 
 ## 判断输出日志的路径文件夹是否存在，不存在则创建文件夹，windows平台代码参考如下：
 
-`
+```
 std::string cmdstr = "mkdir \"";
 cmdstr = cmdstr.append(path);//path为文件名（绝对路径形式）
 cmdstr = cmdstr.substr(0, cmdstr.find_last_of('\\'));
@@ -89,4 +89,4 @@ if (!((_stat(cmdstr.substr(7).c_str(), &fileStat) == 0)
 	cmdstr.append("\"");
 	system(cmdstr.c_str());
 }
-`
+```
