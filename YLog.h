@@ -12,9 +12,9 @@ private:
 	int minlevel;
 public:
 	enum TYPE{ ADD, OVER};
-	enum LEVEL{ INFO, ERROR};
+	enum LEVEL{ INFO, ERR};
 	YLog(const int level, const std::string &logfile, const int type = YLog::OVER): minlevel(level){
-		assert((this->ERROR == level || this->INFO == level) && "Logfile create failed, please check the level(YLog::ERROR or YLog::INFO.");
+		assert((this->ERR == level || this->INFO == level) && "Logfile create failed, please check the level(YLog::ERR or YLog::INFO.");
 		if (type == this->ADD){
 			this->of.open(logfile.c_str(),std::ios_base::out|std::ios_base::app);
 		} else if(type == this->OVER){
@@ -35,7 +35,7 @@ public:
 
 	template<typename T> void w(const std::string &codefile, const int codeline, const int level, const std::string &info, const T &value){
 		assert(this->of.is_open());
-		if(this->ERROR == level){
+		if(this->ERR == level){
 			this->of << "[ERROR] ";
 		} else if(this->INFO == level){
 			if(this->INFO == this->minlevel){
@@ -44,7 +44,7 @@ public:
 				return;
 			}
 		} else{
-			assert(0 && "Log write failed, please check the level(YLog::ERROR or YLog::INFO.");
+			assert(0 && "Log write failed, please check the level(YLog::ERR or YLog::INFO.");
 		}
 		time_t sectime = time(NULL);
 		tm tmtime;

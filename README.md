@@ -12,7 +12,7 @@
 ```
 YLog(const int level, const std::string &logfile, const int type = YLog::OVER);
 ```
-* level：指定日志级别下限，ERROR级别（YLog::ERROR）或INFO级别（YLog::INFO），仅当调用日志输出函数的输出级别达到定义下限级别时才会往日志文件中写日志。（例如，下限定义成YLog::ERROR，那么所有 INFO 级别的信息将不会写入日志文件）
+* level：指定日志级别下限，ERROR级别（YLog::ERR）或INFO级别（YLog::INFO），仅当调用日志输出函数的输出级别达到定义下限级别时才会往日志文件中写日志。（例如，下限定义成YLog::ERR，那么所有 INFO 级别的信息将不会写入日志文件）
 * logfile：指定输出日志文件名。（如果含路径，请保证路径文件夹存在）
 * type：指定每一个日志文件的输出方式，每次程序运行追加（YLog::ADD)或覆盖(YLog::OVER)之前的日志文件。
 
@@ -96,3 +96,7 @@ if (!((_stat(cmdstr.substr(7).c_str(), &fileStat) == 0)
 	system(cmdstr.c_str());
 }
 ```
+## 注
+
+* YLog类不可以为常对象
+* YLog::ERROR改为YLog::ERR, 因为ERROR宏已存在（2019-3-26更新）

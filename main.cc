@@ -10,7 +10,7 @@
 # 使用介绍
 
 构造函数为 YLog(const int level, const std::string &logfile, const int type = YLog::OVER);
-level：指定日志级别下限，ERROR级别（YLog::ERROR）或INFO级别（YLog::INFO），仅当调用日志输出函数的输出级别达到定义下限级别时才会往日志文件中写日志。（例如，下限定义成YLog::ERROR，那么所有 INFO 级别的信息将不会写入日志文件）
+level：指定日志级别下限，ERROR级别（YLog::ERR）或INFO级别（YLog::INFO），仅当调用日志输出函数的输出级别达到定义下限级别时才会往日志文件中写日志。（例如，下限定义成YLog::ERR，那么所有 INFO 级别的信息将不会写入日志文件）
 logfile：指定输出日志文件名。（如果含路径，请保证路径文件夹存在）
 type：指定每一个日志文件的输出方式，每次程序运行追加（YLog::ADD)或覆盖(YLog::OVER)之前的日志文件。
 
@@ -31,17 +31,17 @@ int main(){
 	//创建日志对象log1，如果文件存在则追加，日志输出下限级别为INFO级别
 	YLog log1(YLog::INFO, "log1.txt", YLog::ADD);
 	//创建日志对象log2，如果文件存在则覆盖，日志输出下限级别为ERROR级别
-	YLog log2(YLog::ERROR, "log2.txt", YLog::OVER);
+	YLog log2(YLog::ERR, "log2.txt", YLog::OVER);
 	int a = 520;
 	double b = 13.14;
 	std::string c = "I love U.";
 
 	log1.w(__FILE__, __LINE__, YLog::INFO, "watch_a",a);//INFO级别不低于log1的下限INFO级别，正常写入日志文件
-	log1.w(__FILE__, __LINE__, YLog::ERROR, "Watch_b",b);//正常写入
+	log1.w(__FILE__, __LINE__, YLog::ERR, "Watch_b",b);//正常写入
 	log1.w(__FILE__, __LINE__, YLog::INFO, "watch_c",c);//正常写入
 
 	log2.w(__FILE__, __LINE__, YLog::INFO, "watch_a",a);//INFO级别低于log2的下限ERROR级别，不写入日志
-	log2.w(__FILE__, __LINE__, YLog::ERROR, "Watch_b",b);//正常写入
+	log2.w(__FILE__, __LINE__, YLog::ERR, "Watch_b",b);//正常写入
 	log2.w(__FILE__, __LINE__, YLog::INFO, "watch_c",c);//不写入日志
 	return 0;
 }
