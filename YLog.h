@@ -22,7 +22,7 @@ public:
 		} else{
 			assert(0 && "Logfile create failed, please check the type(YLog::OVER or YLog::ADD).");
 		}
-		assert(this->of.is_open() && "Logfile create failed, please check the logfile'name and path.");
+		assert(this->of.is_open() && "Logfile create failed, please check the logfile's name and path.");
 		return;
 	}	
 
@@ -34,7 +34,7 @@ public:
 	}
 
 	template<typename T> void w(const std::string &codefile, const int codeline, const int level, const std::string &info, const T &value){
-		assert(this->of.is_open());
+		assert(this->of.is_open() && "Logfile write failed.");
 		if(this->ERR == level){
 			this->of << "[ERROR] ";
 		} else if(this->INFO == level){
