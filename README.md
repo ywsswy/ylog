@@ -19,7 +19,7 @@ YLog(const int level, const std::string &logfile, const int type = YLog::OVER);
 ## 写日志的函数
 ```
 template<typename T> \
-	void w(const std::string &codefile, const int codeline, \
+	void W(const std::string &codefile, const int codeline, \
 		const int level, const std::string &info, const T &value);
 ```
 * codefile：固定使用__FILE__宏表示哪个程序文件输出的日志。
