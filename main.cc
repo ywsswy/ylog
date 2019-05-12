@@ -15,7 +15,7 @@ logfile：指定输出日志文件名。（如果含路径，请保证路径文�
 type：指定每一个日志文件的输出方式，每次程序运行追加（YLog::ADD)或覆盖(YLog::OVER)之前的日志文件。
 
 写日志的函数为 template<typename T> \
-	void w(const std::string &codefile, const int codeline, \
+	void W(const std::string &codefile, const int codeline, \
 		const int level, const std::string &info, const T &value);
 codefile：固定使用__FILE__宏表示哪个程序文件输出的日志。
 codeline：固定使用__LINE__宏表示文件中哪一行代码输出的日志。
@@ -37,11 +37,11 @@ int main(){
 	std::string c = "I love U.";
 
 	log1.w(__FILE__, __LINE__, YLog::INFO, "watch_a",a);//INFO级别不低于log1的下限INFO级别，正常写入日志文件
-	log1.w(__FILE__, __LINE__, YLog::ERR, "Watch_b",b);//正常写入
-	log1.w(__FILE__, __LINE__, YLog::INFO, "watch_c",c);//正常写入
+	log1.w(__FILE__, __LINE__, YLog::ERR, "see_b",b);//正常写入
+	log1.w(__FILE__, __LINE__, YLog::INFO, "log_c",c);//正常写入
 
-	log2.w(__FILE__, __LINE__, YLog::INFO, "watch_a",a);//INFO级别低于log2的下限ERROR级别，不写入日志
-	log2.w(__FILE__, __LINE__, YLog::ERR, "Watch_b",b);//正常写入
-	log2.w(__FILE__, __LINE__, YLog::INFO, "watch_c",c);//不写入日志
+	log2.w(__FILE__, __LINE__, YLog::INFO, "A",a);//INFO级别低于log2的下限ERROR级别，不写入日志
+	log2.w(__FILE__, __LINE__, YLog::ERR, "B",b);//正常写入
+	log2.w(__FILE__, __LINE__, YLog::INFO, "C",c);//不写入日志
 	return 0;
 }
