@@ -60,7 +60,7 @@ std::cout << tb.millitm;
 #include<string>
 #include<cassert>
 void fun(const char* format, ...){
-    char info[20] = {0};
+    char info[400] = {0};//请确保info可以放下转换的字符
     va_list args;
     va_start(args, format);    
     vsprintf(info,format,args);
