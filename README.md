@@ -1,12 +1,17 @@
 # 本日志类特点
 
-* 小巧可爱，全程序（YLog.h）仅60多行，使用方便。
+* 小巧可爱，全程序（ylog.h）仅60多行，使用方便。
 * 不定义宏，全局变量等，减少污染，低碳环保。
 * 使用标准库，兼容windows和linux平台。
 * 多线程安全。（但低本版编译器如 vc++6.0 会使用localtime等线程不安全的函数）
 * 可输出每条日志信息的日志级别、输出时间、所在程序文件名、所在代码行数、日志信息。
 
 # 使用介绍
+```
+  int a = 3;
+  YLog log1(YLog::INFO, "log.txt", YLog::ADD);
+  log1.W(__FILE__, __LINE__, YLog::INFO, "let me watch a's value",a);
+```
 
 ## 构造函数
 ```
@@ -19,8 +24,7 @@ YLog(const int level, const std::string &logfile, const int type = YLog::OVER);
 ## 写日志的函数
 ```
 template<typename T> \
-	void W(const std::string &codefile, const int codeline, \
-		const int level, const std::string &info, const T &value);
+  void W(const std::string &codefile, const int codeline, const int level, const std::string &info, const T &value);
 ```
 * codefile：固定使用__FILE__宏表示哪个程序文件输出的日志。
 * codeline：固定使用__LINE__宏表示文件中哪一行代码输出的日志。
@@ -28,7 +32,7 @@ template<typename T> \
 * info：string类型的任意信息。
 * value：想写入日志的任意类型的变量的值。（请确保此类型变量重载了'<<'操作符）
 
-# 可以继续考虑的部分
+# 大家可以继续考虑对功能进行扩展的部分
 
 ## avoid large file.
 即轮替，作为服务器日志，服务器不出故障是不重启的，半年一年的日志放到一个文件会导致文件过大。
@@ -86,17 +90,16 @@ cmdstr = cmdstr.substr(0, cmdstr.find_last_of('\\'));
 struct _stat fileStat;
 //判断路径是否存在
 if (!((_stat(cmdstr.substr(7).c_str(), &fileStat) == 0) 
-			&& 
-			(fileStat.st_mode & _S_IFDIR)
-		)	
-		&&
-		(cmdstr.size() != 9)
-	){
-	cmdstr.append("\"");
-	system(cmdstr.c_str());
+      && 
+      (fileStat.st_mode & _S_IFDIR)
+    )  
+    &&
+    (cmdstr.size() != 9)
+  ){
+  cmdstr.append("\"");
+  system(cmdstr.c_str());
 }
 ```
-## 注
-
-* YLog类不可以为常对象
-* YLog::ERROR改为YLog::ERR, 因为ERROR宏已存在（2019-3-26更新）
+## changelog
+- YLog类不可以为常对象
+- YLog::ERROR改为YLog::ERR, 因为ERROR宏已存在（2019-03-26）
