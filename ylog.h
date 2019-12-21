@@ -29,7 +29,6 @@ class YLog{
       assert(0 && "Logfile create failed, please check the type(YLog::OVER or YLog::ADD).");
     }
     assert(this->of_.is_open() && "Logfile create failed, please check the logfile's name and path.");
-    //this->W(__FILE__, __LINE__, level, "New YLog", "succ");
     return;
   }
   ~YLog(){
