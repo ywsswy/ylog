@@ -17,7 +17,7 @@
 ```
 YLog(const int level, const std::string &logfile, const int type = YLog::OVER);
 ```
-* level：指定日志级别下限，ERROR级别（YLog::ERR）或INFO级别（YLog::INFO），仅当调用日志输出函数的输出级别达到定义下限级别时才会往日志文件中写日志。（例如，下限定义成YLog::ERR，那么所有 INFO 级别的信息将不会写入日志文件）
+* level：指定日志级别下限，ERROR级别（YLog::ERR）或INFO级别（YLog::INFO）或DEBUG级别（YLog::DEBUG），仅当调用日志输出函数的输出级别达到定义下限级别时才会往日志文件中写日志。（例如，下限定义成YLog::ERR，那么所有 INFO 级别的信息将不会写入日志文件）
 * logfile：指定输出日志文件名。（如果含路径，请保证路径文件夹存在）
 * type：指定每一个日志文件的输出方式，每次程序运行追加（YLog::ADD)或覆盖(YLog::OVER)之前的日志文件。
 
@@ -99,6 +99,14 @@ if (!((_stat(cmdstr.substr(7).c_str(), &fileStat) == 0)
   cmdstr.append("\"");
   system(cmdstr.c_str());
 }
+```
+
+## 几种日志格式
+```
+2020-11-02 22:09:24 [FATAL]: [path/file.cc:156:function]:INFO
+[2020-11-02 22:12:18.240648524] [ERROR] [./schedual.sh:349] unknown
+2020-11-2 22:37:18 [INFO]: [main.cc:13]:watch_a
+520
 ```
 ## changelog
 - YLog类不可以为常对象

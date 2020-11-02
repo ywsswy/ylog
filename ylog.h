@@ -16,7 +16,8 @@ class YLog{
     OVER
   };
   enum Level {
-    INFO = 0,
+    DEBUG = 0,
+    INFO,
     ERR
   };
   YLog(const int level, const std::string &logfile, const int type = YLog::OVER) : minlevel_(level) {
@@ -39,31 +40,32 @@ class YLog{
   }
   template<typename T> void W(const std::string &codefile, const int codeline, const int level, const std::string &info, const T &value) {
     assert(this->of_.is_open() && "Logfile write failed.");
-    if (this->ERR == level) {
-      this->of_ << "[ERROR] ";
-    } else if (this->INFO == level) {
-      if (this->INFO == this->minlevel_) {
-        this->of_ << "[INFO] ";
-      } else {
-        return;
-      }
-    } else {
-      assert(0 && "Log write failed, please check the level(YLog::ERR or YLog::INFO.");
-    }
-    time_t sectime = time(NULL);
-    tm tmtime;
+    if (this->minlevel_ <= level)
+    {
+      time_t sectime = time(NULL);
+      tm tmtime;
 #ifdef _WIN32
 #if _MSC_VER<1600
-    tmtime = *localtime(&sectime);
+      tmtime = *localtime(&sectime);
 #else
-    localtime_s(&tmtime, &sectime);
+      localtime_s(&tmtime, &sectime);
 #endif
 #else
-    localtime_r(&sectime, &tmtime);
+      localtime_r(&sectime, &tmtime);
 #endif
-    this->of_ << tmtime.tm_year+1900 << '-' << tmtime.tm_mon+1 << '-' << tmtime.tm_mday <<
-      ' ' << tmtime.tm_hour << ':' << tmtime.tm_min << ':' << tmtime.tm_sec <<
-      ' '<< codefile << '(' << codeline << ") " << info << ":\n" << value << std::endl;
+      this->of_ << tmtime.tm_year + 1900 << '-' << tmtime.tm_mon + 1 << '-' << tmtime.tm_mday <<
+        ' ' << tmtime.tm_hour << ':' << tmtime.tm_min << ':' << tmtime.tm_sec << " [";
+      if (this->ERR == level) {
+        this->of_ << "ERROR";
+      } else if (this->INFO == level) {
+        this->of_ << "INFO";
+      } else if (this->DEBUG == level) {
+        this->of_ << "DEBUG";
+      } else {
+        assert(0 && "Log write failed, please check the level(YLog::ERR or YLog::INFO or YLog::DEBUG.");
+      }
+      this->of_ << "]: [" << codefile << ':' << codeline << "]:" << info << "\n" << value << std::endl;
+    }
     return;
   }
 };
