@@ -1,5 +1,7 @@
 %{
+#include "ylog.h"
 #include <iostream>
+#include <sstream>
 #include <vector>
 #include <list>
 template<typename T>
@@ -9,13 +11,14 @@ const int gStartFunction = 1;
 const std::string gStartStr = "1";
 const int gEndFunction = 2;
 const std::string gEndStr = "2";
+YLog g_tree_log(YLog::DEBUG, "tree_log.txt", YLog::ADD);
 
 class Info
 {
 public:
     std::string function_name;//pretty_function
     std::string debug_info;
-    bool flag_state; // 1 start, 2 end
+    int flag_state; // 1 start, 2 end
 };
 
 void Print(const std::list<Info> &debug_list)
@@ -30,6 +33,21 @@ void Print(const std::list<Info> &debug_list)
     }
 }
 
+void PrintV2(const std::list<Info> &debug_list)
+{
+    int tab = 2;
+    std::stringstream ss;
+    for (auto &&it_debug : debug_list)
+    {
+        ss << it_debug.function_name;
+        for (int i = 0; i < tab; ++i)
+        {
+            ss << '\t';
+        }
+    }
+    g_tree_log.W(__FILE__, __LINE__, YLog::INFO, "", ss.str());
+}
+
 void UpdateDebugTree(std::list<Info> &debug_list, const Info &info)
 {
     if (info.flag_state == gStartFunction)
@@ -38,7 +56,6 @@ void UpdateDebugTree(std::list<Info> &debug_list, const Info &info)
     }
     else
     {
-        std::cerr << "HERE" << std::endl;
         bool need_pop = true;
         while (!debug_list.empty() && need_pop)
         {
@@ -50,7 +67,8 @@ void UpdateDebugTree(std::list<Info> &debug_list, const Info &info)
             debug_list.pop_back();
         }
     }
-    Print(debug_list);
+    PrintV2(debug_list);
+    //Print(debug_list);
 }
 
 std::list<Info> g_debug_list;
@@ -66,12 +84,12 @@ Info g_now_info;
   
 %%
 <<EOF>>	{
-    std::cout << "[" << __LINE__ << "]:" << yytext << std::endl;
+    //std::cout << "[" << __LINE__ << "]:" << yytext << std::endl;
     UpdateDebugTree(g_debug_list, g_now_info);
     return 0;
 }
 ^[0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2}\ [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}\ \[((INFO)|(DEBUG)|(ERROR))\]:.*	{
-    std::cout << "[" << __LINE__ << "]:" << yytext << std::endl;
+    //std::cout << "[" << __LINE__ << "]:" << yytext << std::endl;
     UpdateDebugTree(g_debug_list, g_now_info);
     g_now_info.function_name.clear();
     g_now_info.debug_info.clear();
@@ -121,7 +139,7 @@ Info g_now_info;
     }
 }
 ^.*	{
-    std::cout << "[" << __LINE__ << "]:" << yytext << std::endl;
+    //std::cout << "[" << __LINE__ << "]:" << yytext << std::endl;
     g_now_info.debug_info.append(std::string(yytext));
     g_now_info.debug_info.append("\n");
 }
@@ -129,6 +147,7 @@ Info g_now_info;
 
 int main()
 {
+    g_now_info.flag_state = gStartFunction;
     std::cerr << "yylex:" << yylex() << std::endl;
     return 0;
 }
