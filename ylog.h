@@ -21,7 +21,7 @@ class YLog{
     ERR
   };
   YLog(const int level, const std::string &logfile, const int type = YLog::OVER) : minlevel_(level) {
-    assert((this->ERR == level || this->INFO == level) && "Logfile create failed, please check the level(YLog::ERR or YLog::INFO.");
+    assert((this->ERR == level || this->INFO == level || this->DEBUG == level) && "Logfile create failed, please check the level(YLog::ERR or YLog::INFO or YLog::DEBUG.");
     if (type == this->ADD) {
       this->of_.open(logfile.c_str(),std::ios_base::out|std::ios_base::app);
     } else if (type == this->OVER) {
