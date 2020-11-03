@@ -35,15 +35,11 @@ void Print(const std::list<Info> &debug_list)
 
 void PrintV2(const std::list<Info> &debug_list)
 {
-    int tab = 2;
     std::stringstream ss;
     for (auto &&it_debug : debug_list)
     {
         ss << it_debug.function_name;
-        for (int i = 0; i < tab; ++i)
-        {
-            ss << '\t';
-        }
+        ss << '\t';
     }
     g_tree_log.W(__FILE__, __LINE__, YLog::INFO, "", ss.str());
 }
