@@ -108,6 +108,3 @@ if (!((_stat(cmdstr.substr(7).c_str(), &fileStat) == 0)
 2020-11-2 22:37:18 [INFO]: [main.cc:13]:watch_a
 520
 ```
-## changelog
-- YLog类不可以为常对象
-- YLog::ERROR改为YLog::ERR, 因为ERROR宏已存在（2019-03-26）
