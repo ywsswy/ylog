@@ -64,7 +64,7 @@ class YLog{
       } else {
         assert(0 && "Log write failed, please check the level(YLog::ERR or YLog::INFO or YLog::DEBUG.");
       }
-      this->of_ << "]: [" << codefile << ':' << codeline << "]:" << info << "\n" << value << std::endl;
+      this->of_ << "]: [" << codefile << ':' << codeline << "]:" << info << ':' << value << std::endl;
     }
     return;
   }
