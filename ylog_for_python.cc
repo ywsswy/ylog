@@ -5,6 +5,7 @@
 #include <fstream>
 #include <cassert>
 #include <ctime>
+#include <boost/python.hpp> 
 
 class YLog{
  private:
@@ -38,7 +39,8 @@ class YLog{
     }
     return;
   }
-  template<typename T> void W(const std::string &codefile, const int codeline, const int level, const std::string &info, const T &value) {
+  YLog(const YLog &y);//TODO yws
+  void W(const std::string &codefile, const int codeline, const int level, const std::string &info, const std::string &value) {
     assert(this->of_.is_open() && "Logfile write failed.");
     if (this->minlevel_ <= level)
     {
@@ -69,4 +71,9 @@ class YLog{
     return;
   }
 };
+BOOST_PYTHON_MODULE(ylog_for_python) 
+{ 
+  boost::python::class_<YLog>("YLog", boost::python::init<const int, const std::string, const int>())
+    .def("W", &YLog::W);
+}
 #endif // YLOG_YLOG_H_ 
