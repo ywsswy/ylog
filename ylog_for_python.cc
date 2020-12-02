@@ -39,7 +39,10 @@ class YLog{
     }
     return;
   }
-  YLog(const YLog &y);//TODO yws
+  YLog(const YLog &y)
+  {
+    assert(0 && "Can not use copy constructor");// python 'var1 = var2' won't call this(shallow copy)
+  }
   void W(const std::string &codefile, const int codeline, const int level, const std::string &info, const std::string &value) {
     assert(this->of_.is_open() && "Logfile write failed.");
     if (this->minlevel_ <= level)
@@ -77,3 +80,4 @@ BOOST_PYTHON_MODULE(ylog_for_python)
     .def("W", &YLog::W);
 }
 #endif // YLOG_YLOG_H_ 
+//g++ ylog_for_python.cc -std=c++11 -fPIC -shared -o ylog_for_python.so -I/usr/include/python3.6m -I/usr/local/include -L/usr/lib64 -lboost_python3
