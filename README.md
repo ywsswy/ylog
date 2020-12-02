@@ -1,4 +1,7 @@
 # ylog\_for\_python.cc 仅是ylog.h的改写，为python提供接口
+```
+export LD_LIBRARY_PATH="."
+```
 # 本日志类特点
 
 * 小巧可爱，全程序（ylog.h）仅60多行，使用方便。
