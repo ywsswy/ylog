@@ -24,7 +24,11 @@ YAnchor test(__PRETTY_FUNCTION__, "");
 flex fl.l
 g++ lex.yy.c -g -O0 -lfl -std=c++11
 ./a.out < anchor_log.txt
-then view tree.log
+3. then view tree.log
+    var yws_add_css = document.createElement('style');
+    yws_add_css.type = 'text/css';
+    yws_add_css.innerHTML='pre{white-space: pre !important;}';
+    document.getElementsByTagName('head')[0].appendChild(yws_add_css);
 ```
 # 本日志类特点
 
