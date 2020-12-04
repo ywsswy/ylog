@@ -8,10 +8,10 @@ template<typename T>
 class TD;
 
 const int gStartFunction = 1;
-const std::string gStartStr = "1";
+const std::string gStartStr = "@1";
 const int gEndFunction = 2;
-const std::string gEndStr = "2";
-YLog g_tree_log(YLog::DEBUG, "tree_log.txt", YLog::ADD);
+const std::string gEndStr = "@2";
+YLog g_tree_log(YLog::DEBUG, "tree.log", YLog::OVER);
 
 class Info
 {
@@ -85,54 +85,71 @@ Info g_now_info;
     return 0;
 }
 ^[0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2}\ [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}\ \[((INFO)|(DEBUG)|(ERROR))\]:.*	{
+    //TODO yws
     //std::cout << "[" << __LINE__ << "]:" << yytext << std::endl;
     UpdateDebugTree(g_debug_list, g_now_info);
     g_now_info.function_name.clear();
     g_now_info.debug_info.clear();
     g_now_info.flag_state = gStartFunction;
     std::string raw_str(yytext);
-    int find_time = 5;
-    size_t idx = 0;
-    for (int i = 0; i < find_time; ++i)
+    // 2020-12-3 18:23:52 [INFO]: [test.cc:13]:int main(int, char**)@2:test2
+    size_t idx = 0; //start pos
+    for (int i = 0; i < 5; ++i)// 5th colon
     {
-        idx = raw_str.find_first_of(":", idx + 1);
+        idx = raw_str.find_first_of(":", idx + 1);// (i+1)th colon pos
         //std::cerr << "idx:" << idx << std::endl;
         if (idx == std::string::npos)
         {
-            std::cerr << "find : error" << std::endl;
-            return -1;
+            std::cerr << "find : error(flex regex bug ?)" << std::endl;
+            exit(1);
         }
     }
-    ++idx;
-    if (idx > raw_str.size())
-    {
-        std::cerr << "find : error" << std::endl;
-        return -1;
-    }
-    size_t idx_at = raw_str.find_first_of("@", idx);
+    ++idx;// function_name pos
+    size_t idx_at = raw_str.find_first_of("@", idx);// at pos
     if (idx_at == std::string::npos)
     {
-        //std::cerr << "find @ error, default use all" << std::endl;
-        g_now_info.function_name = raw_str.substr(idx);
+        std::cerr << "find @ error, (flex regex bug ?)" << std::endl;
+        exit(1);
+    }
+    if (idx > raw_str.size())
+    {
+        std::cerr << __LINE__ << "(flex regex bug)" << std::endl;
+        exit(1);
+    }
+    g_now_info.function_name = raw_str.substr(idx, idx_at - idx);
+    idx = raw_str.find_first_of(":", idx_at + 1);// sixth colon pos
+    if (idx == std::string::npos)
+    {
+        std::cerr << __LINE__ << "find : error, (flex regex bug ?)" << std::endl;
+        exit(1);
+    }
+    if (idx_at > raw_str.size())
+    {
+        std::cerr << __LINE__ << "(flex regex bug)" << std::endl;
+        exit(1);
+    }
+    std::string state_str = raw_str.substr(idx_at, idx - idx_at);
+    if (state_str == gStartStr)
+    {
+        g_now_info.flag_state = gStartFunction;
+    }
+    else if (state_str == gEndStr)
+    {
+        g_now_info.flag_state = gEndFunction;
     }
     else
     {
-        g_now_info.function_name = raw_str.substr(idx, idx_at - idx);
-        std::string state_str = raw_str.substr(idx_at + 1);
-        if (state_str == gStartStr)
-        {
-            g_now_info.flag_state = gStartFunction;
-        }
-        else if (state_str == gEndStr)
-        {
-            g_now_info.flag_state = gEndFunction;
-        }
-        else
-        {
-            std::cerr << "state_str error" << std::endl;
-            return -1;
-        }
+        std::cerr << __LINE__ << "(flex regex bug)" << std::endl;
+        exit(1);
     }
+    idx++;// info pos
+    if (idx > raw_str.size())
+    {
+        std::cerr << __LINE__ << "(flex regex bug)" << std::endl;
+        exit(1);
+    }
+    g_now_info.debug_info.append(raw_str.substr(idx));
+    g_now_info.debug_info.append("\n");
 }
 ^.*	{
     //std::cout << "[" << __LINE__ << "]:" << yytext << std::endl;

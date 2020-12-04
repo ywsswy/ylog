@@ -18,10 +18,13 @@ private:
     std::string info;
 };
 YLog YAnchor::log(YLog::DEBUG, "anchor_log.txt", YLog::OVER);
+
+YAnchor test(__PRETTY_FUNCTION__, "");
 2.
 flex fl.l
 g++ lex.yy.c -g -O0 -lfl -std=c++11
 ./a.out < anchor_log.txt
+then view tree.log
 ```
 # 本日志类特点
 
