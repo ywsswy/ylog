@@ -1,6 +1,4 @@
-#ifndef YLOG_YLOG_H_
-#define YLOG_YLOG_H_
-
+// 这个文件是用c++编译的
 #include <string>
 #include <fstream>
 #include <cassert>
@@ -69,4 +67,41 @@ class YLog{
     return;
   }
 };
-#endif // YLOG_YLOG_H_ 
+#include "ylog_wrapper.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+class GlobalFunction
+{
+public:
+    static void W(const struct YLogWrapper *log, const char *codefile, const int codeline, const int level, const char *info, const char *value)
+    {
+        if (log != NULL)
+        {
+            YLog *ylog = (YLog *)(log->internal_);
+            ylog->W(codefile, codeline, level, info, value);
+        }
+    }
+};
+struct YLogWrapper *NewYLog(const int level, const char *logfile, const int type)
+{
+    struct YLogWrapper *log = new struct YLogWrapper;
+    log->W = GlobalFunction::W;
+    log->internal_ = new YLog(level, logfile, type);
+    return log;
+}
+void DeleteYLog(struct YLogWrapper *log)
+{
+    if (log != NULL)
+    {
+        YLog *ylog = (YLog *)(log->internal_);
+        delete ylog;
+        ylog = NULL;
+        delete log;
+        log = NULL;
+    }
+}
+#ifdef __cplusplus
+};
+#endif
