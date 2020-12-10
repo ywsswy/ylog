@@ -1,5 +1,58 @@
 # for c compiler
 
+# 调试函数调用信息
+```
+#include "ylog_wrapper.h"
+struct YLogWrapper *g_anchor;
+#define return strcpy(ylog_str, __FILE__); g_anchor->W(g_anchor, __FILE__, __LINE__, 1, strcat(ylog_str, "@2"), ""); return
+int main()
+{
+    g_anchor = NewYLog(0, "anchor_log.txt", 1);
+    char ylog_str[200] = __FILE__;
+    g_anchor->W(g_anchor, __FILE__, __LINE__, 1, strcat(ylog_str, "@1"), "");
+}
+#undef return
+
+
+#define return strcpy(ylog_str, __FILE__); g_anchor->W(g_anchor, __FILE__, __LINE__, 1, strcat(ylog_str, "@2"), ""); return
+fun1()
+{
+    char ylog_str[200] = __FILE__;
+    g_anchor->W(g_anchor, __FILE__, __LINE__, 1, strcat(ylog_str, "@1"), "");
+}
+#undef return
+1,代码中配套调用类
+class YAnchor
+{
+public:
+    static YLog log;
+    YAnchor(const std::string &sign, const std::string &info) : sign(sign), info(info)
+    {
+        log.W(__FILE__, __LINE__, YLog::INFO, sign + "@1", info);
+    }
+    ~YAnchor()
+    {
+        log.W(__FILE__, __LINE__, YLog::INFO, sign + "@2", info);
+    }
+private:
+    std::string sign;
+    std::string info;
+};
+YLog YAnchor::log(YLog::DEBUG, "anchor_log.txt", YLog::OVER);
+
+fun() {
+    YAnchor anchor(__PRETTY_FUNCTION__, "");
+}
+2.
+flex fl.l
+g++ lex.yy.c -g -O0 -lfl -std=c++11
+./a.out < anchor_log.txt
+3. then view tree.log
+    var yws_add_css = document.createElement('style');
+    yws_add_css.type = 'text/css';
+    yws_add_css.innerHTML='pre{white-space: pre !important;}';
+    document.getElementsByTagName('head')[0].appendChild(yws_add_css);
+```
 # 本日志类特点
 
 * 小巧可爱，全程序（ylog.h）仅60多行，使用方便。
@@ -109,4 +162,5 @@ if (!((_stat(cmdstr.substr(7).c_str(), &fileStat) == 0)
 [2020-11-02 22:12:18.240648524] [ERROR] [./schedual.sh:349] unknown
 2020-11-2 22:37:18 [INFO]: [main.cc:13]:watch_a
 520
+2020-11-2 22:37:18 [INFO]: [main.cc:13]:watch_a:520
 ```
