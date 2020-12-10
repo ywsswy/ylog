@@ -4,7 +4,7 @@
 class YAnchor
 {
 public:
-    static YLog log; 
+    static YLog log;
     YAnchor(const std::string &sign, const std::string &info) : sign(sign), info(info)
     {
         log.W(__FILE__, __LINE__, YLog::INFO, sign + "@1", info);
@@ -19,7 +19,9 @@ private:
 };
 YLog YAnchor::log(YLog::DEBUG, "anchor_log.txt", YLog::OVER);
 
-YAnchor test(__PRETTY_FUNCTION__, "");
+fun() {
+    YAnchor anchor(__PRETTY_FUNCTION__, "");
+}
 2.
 flex fl.l
 g++ lex.yy.c -g -O0 -lfl -std=c++11
