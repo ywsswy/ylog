@@ -1,4 +1,4 @@
 *.bak
 *.sw?
-*.so
 .gdb_history
+*.o
