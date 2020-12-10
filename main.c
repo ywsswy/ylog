@@ -8,5 +8,6 @@ int main(void)
     ylog1->W(ylog1, __FILE__, __LINE__, 0, "test1", "value1");
     ylog1->W(ylog1, __FILE__, __LINE__, 1, "test1", "value2");
     ylog1->W(ylog1, __FILE__, __LINE__, 2, "test1", "value3");
+    DeleteYLog(ylog1);
     return 0;
 }
