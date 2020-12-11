@@ -4,12 +4,11 @@
 ```
 #include "ylog_wrapper.h"
 struct YLogWrapper *g_anchor;
-#define return strcpy(ylog_str, __FILE__); g_anchor->W(g_anchor, __FILE__, __LINE__, 1, strcat(ylog_str, "@2"), ""); return
+#define return strcpy(ylog_str, __FUNCTION__); g_anchor->W(g_anchor, __FILE__, __LINE__, 1, strcat(ylog_str, "@2"), ""); return
 int main()
 {
     g_anchor = NewYLog(0, "anchor_log.txt", 1);
-    char ylog_str[200] = __FILE__;
-    g_anchor->W(g_anchor, __FILE__, __LINE__, 1, strcat(ylog_str, "@1"), "");
+    char ylog_str[200]; strcpy(ylog_str, __FUNCTION__); g_anchor->W(g_anchor, __FILE__, __LINE__, 1, strcat(ylog_str, "@1"), "");
 }
 #undef return
 
@@ -17,8 +16,7 @@ int main()
 #define return strcpy(ylog_str, __FILE__); g_anchor->W(g_anchor, __FILE__, __LINE__, 1, strcat(ylog_str, "@2"), ""); return
 fun1()
 {
-    char ylog_str[200] = __FILE__;
-    g_anchor->W(g_anchor, __FILE__, __LINE__, 1, strcat(ylog_str, "@1"), "");
+    char ylog_str[200]; strcpy(ylog_str, __FUNCTION__); g_anchor->W(g_anchor, __FILE__, __LINE__, 1, strcat(ylog_str, "@1"), "");
 }
 #undef return
 1,代码中配套调用类
