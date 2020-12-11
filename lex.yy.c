@@ -486,7 +486,7 @@ const int gStartFunction = 1;
 const std::string gStartStr = "@1";
 const int gEndFunction = 2;
 const std::string gEndStr = "@2";
-YLog g_tree_log(YLog::DEBUG, "tree.log", YLog::OVER);
+YLog g_tree_log(YLog::DEBUG, "tree.txt", YLog::OVER);//flask require .txt for Content-Type: application/json
 
 class Info
 {
@@ -1680,7 +1680,7 @@ YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, yy_size_t  _yybytes_len 
 	YY_BUFFER_STATE b;
 	char *buf;
 	yy_size_t n;
-	int i;
+	yy_size_t i;
     
 	/* Get memory for full buffer, including space for trailing EOB's. */
 	n = _yybytes_len + 2;

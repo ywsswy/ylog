@@ -26,7 +26,7 @@ fun() {
 flex fl.l
 g++ lex.yy.c -g -O0 -lfl -std=c++11
 ./a.out < anchor_log.txt
-3. then view tree.log
+3. then view tree.txt
     var yws_add_css = document.createElement('style');
     yws_add_css.type = 'text/css';
     yws_add_css.innerHTML='pre{white-space: pre !important;}';
