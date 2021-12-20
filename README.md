@@ -1,21 +1,18 @@
 # 调试函数调用信息
 ```
 1,代码中配套调用类
-class YAnchor
-{
-public:
-    static YLog log;
-    YAnchor(const std::string &sign, const std::string &info) : sign(sign), info(info)
-    {
-        log.W(__FILE__, __LINE__, YLog::INFO, sign + "@1", info);
-    }
-    ~YAnchor()
-    {
-        log.W(__FILE__, __LINE__, YLog::INFO, sign + "@2", info);
-    }
-private:
-    std::string sign;
-    std::string info;
+class YAnchor {
+ public:
+  static YLog log;
+  YAnchor(const std::string &sign, const std::string &info) : sign(sign), info(info) {
+    log.W(__FILE__, __LINE__, YLog::INFO, sign + "@1", info);
+  }
+  ~YAnchor() {
+    log.W(__FILE__, __LINE__, YLog::INFO, sign + "@2", info);
+  }
+ private:
+  std::string sign;
+  std::string info;
 };
 YLog YAnchor::log(YLog::DEBUG, "anchor_log.txt", YLog::OVER);
 
