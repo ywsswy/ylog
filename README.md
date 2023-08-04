@@ -87,6 +87,9 @@ fprintf(file, "%04d-%02d-%02d %02d:%02d:%02d.%03d",\
 struct timeb tb;
 ftime(&tb);
 std::cout << tb.millitm;
+/*
+This function(ftime) is obsolete. Don't use it. If the time in seconds suffices, time(2) can be used; gettimeofday(2) gives microseconds; clock_gettime(2) gives nanoseconds but is not as widely available.
+*/
 ```
 
 ## 参数个数可变的情况可以参考如下代码
